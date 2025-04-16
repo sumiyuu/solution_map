@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Address Search and Click Map with Area Display</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.9.1/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.9.1/mapbox-gl.js"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.1-dev/mapbox-gl-geocoder.min.js"></script>
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.1-dev/mapbox-gl-geocoder.css" type="text/css">
+    <script src="../javascript/map.js"></script>
+    <style>
+        body { margin: 0; padding: 0; }
+        #map { position: absolute; top: 50px; bottom: 0; width: 100%; }
+        #geocoder { position: absolute; top: 10px; left: 10px; z-index: 1; width: 50%;}
+        .mapboxgl-ctrl-geocoder {
+            min-width: 100%; /* ジオコーダーの最小幅を100%に設定 */
+            width: 100%; /* ジオコーダーの幅を100%に設定 */
+        }
+    </style>
+</head>
+<body>
+    <div id="geocoder"></div>
+    <div id="map"></div>
+</body>
+</html>
