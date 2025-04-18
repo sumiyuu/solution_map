@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-		return FRONTEND_VIEWS
+		return send_from_directory( FRONTEND_VIEWS, 'user_login.html')
 
 @app.route('/stylecss/<path:filename>')
 def serve_css(filename):
