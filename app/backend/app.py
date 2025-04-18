@@ -28,7 +28,7 @@ def user_register():
 
 @app.route('/map')
 def main_map():
-	return send_from_directory( FRONTEND_VIEWS, 'main_map2.html')
+	return send_from_directory( FRONTEND_VIEWS, 'main_map.html')
 
 if __name__ == ('__main__'):
 		app.run(debug=True,  host='localhost', port=8080)
