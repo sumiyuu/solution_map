@@ -16,6 +16,13 @@ body {
         height: 852px;
         background-color: white;
         border-radius: 40px;
+        position: relative;
+
+        .back {
+            position: absolute;
+            top: 50px;
+            left: 50px;
+        }
 
         .camera-area {
             display: flex;
@@ -38,6 +45,7 @@ body {
             align-items: center;
             justify-content: center;
             gap: 25px; /* 要素間隔を調整 */
+
         }
     }
 }
