@@ -26,6 +26,14 @@ def user_login():
 def user_register():
 	return send_from_directory( FRONTEND_VIEWS, 'user_register.html')
 
+@app.route('/user_profile')
+def user_profile():
+	return send_from_directory( FRONTEND_VIEWS, 'user_profile.html')
+
+@app.route('/user_profile_edit')
+def user_profile_edit():
+	return send_from_directory( FRONTEND_VIEWS, 'user_profile_edit.html')
+
 @app.route('/map')
 def main_map():
 	return send_from_directory( FRONTEND_VIEWS, 'main_map.html')
