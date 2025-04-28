@@ -1,4 +1,5 @@
 from flask import Flask, send_from_directory, request, jsonify, make_response
+from libs import user_students_controller
 
 FRONTEND_VIEWS = "../frontend/views"
 FRONTEND_CSS = "../frontend/stylecss"
@@ -37,6 +38,13 @@ def user_profile_edit():
 @app.route('/map')
 def main_map():
 	return send_from_directory( FRONTEND_VIEWS, 'main_map.html')
+
+@app.route('/user-register', methods=['POST'])
+def user_register_post():
+	data = request.get_json()
+	res = user_students_controller.create(data)
+	return res
+
 
 if __name__ == ('__main__'):
 		app.run(debug=True,  host='localhost', port=8080)
