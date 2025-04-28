@@ -11,9 +11,9 @@ def create(data):
 
         con.commit()
         con.close()
-        return {"msg":"保存に成功しました"}
+        return {"status":"success"}
     except sqlite3.Error as e:
-        return {"msg":"保存に失敗しました", "error": str(e)}
+        return {"status":"error", "error": str(e)}
 
 
 # サンプルデータ

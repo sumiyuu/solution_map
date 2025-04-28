@@ -16,11 +16,15 @@ body {
         height: 852px;
         background-color: white;
         border-radius: 40px;
+        position: relative;
 
         .camera-area {
-            display: flex;
             justify-self: center;
             align-items: center;
+            position: absolute;
+            left: 50%;
+            right: 0;
+            left: 0;
 
             .camera {
                 margin-top: 10px;

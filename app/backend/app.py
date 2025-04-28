@@ -1,4 +1,4 @@
-from flask import Flask, send_from_directory, request, jsonify, make_response
+from flask import Flask, send_from_directory, request, redirect, url_for, jsonify
 from libs import user_students_controller
 
 FRONTEND_VIEWS = "../frontend/views"
@@ -39,11 +39,19 @@ def user_profile_edit():
 def main_map():
 	return send_from_directory( FRONTEND_VIEWS, 'main_map.html')
 
+# 学生ユーザーの処理
 @app.route('/user-register', methods=['POST'])
 def user_register_post():
 	data = request.get_json()
 	res = user_students_controller.create(data)
-	return res
+	if res['status'] == 'success':
+		return jsonify({"redirect": url_for('main_map')})
+	else:
+		if res["error"] == "UNIQUE constraint failed: student_users.display_name":
+			return jsonify({"status":"error","msg": "この表示名はすでに登録されています。"})
+		return res
+
+
 
 
 if __name__ == ('__main__'):

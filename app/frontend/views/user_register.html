@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>新規登録画面</title>
         <link rel="stylesheet" href="../stylecss/user_register.css" />
+        <script src="../javascript/students/post.js"></script>
     </head>
     <body>
         <div class="smartphone-screen">
@@ -14,18 +15,17 @@
             <div class="container">
                 <h1>新規登録</h1>
 
-                <input class="form-input" type="text" placeholder="表示名" />
-                <input class="form-input" type="text" placeholder="名字（姓）" />
-                <input class="form-input" type="text" placeholder="名前（名）" />
-
-                <!-- ✅ 生年月日を手入力に変更 -->
-                <input class="form-input" type="text" placeholder="生年月日（例：2000/01/01）"/>
-
-                <input class="form-input" type="tel" placeholder="電話番号" />
-                <input class="form-input" type="email" placeholder="メールアドレス"/>
-                <input class="form-input" type="password" placeholder="パスワード"/>
-
-                <button class="register-btn">新規登録</button>
+                <p id="msg"></p>
+                <form id="userForm">
+                    <input class="form-input" type="text" id="display_name" placeholder="表示名" />
+                    <input class="form-input" type="text" id="first_name" placeholder="名字（姓）" />
+                    <input class="form-input" type="text" id="last_name" placeholder="名前（名）" />
+                    <input class="form-input" type="text" id="birth" placeholder="生年月日（例：2000-01-01）"/>
+                    <input class="form-input" type="tel" id="phone" placeholder="電話番号" />
+                    <input class="form-input" type="email" id="email" placeholder="メールアドレス"/>
+                    <input class="form-input" type="password" id="password" placeholder="パスワード"/>
+                    <button type="submit" class="register-btn">新規登録</button>
+                </form>
 
                 <a class="login-link" href="http://localhost:8080/user-login">アカウントをお持ちの方はこちら</a>
             </div>
