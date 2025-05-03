@@ -1,19 +1,19 @@
 from flask import Flask, send_from_directory, request, redirect, url_for, jsonify
 from libs import user_students_controller
 
-FRONTEND_VIEWS = "../frontend/views"
-FRONTEND_CSS = "../frontend/stylecss"
+STUDENT_VIEWS = "../frontend/views/student"
+STUDENT_CSS = "../frontend/stylecss/student"
 FRONTEND_JS = "../frontend/javascript"
 
 app = Flask(__name__)
 
 @app.route('/')
 def home():
-		return send_from_directory( FRONTEND_VIEWS, 'user_login.html')
+		return send_from_directory( STUDENT_VIEWS, 'user_login.html')
 
 @app.route('/stylecss/<path:filename>')
 def serve_css(filename):
-    return send_from_directory(FRONTEND_CSS, filename)
+    return send_from_directory(STUDENT_CSS, filename)
 
 @app.route('/javascript/<path:filename>')
 def serve_js(filename):
@@ -21,23 +21,23 @@ def serve_js(filename):
 
 @app.route('/user-login')
 def user_login():
-	return send_from_directory( FRONTEND_VIEWS, 'user_login.html')
+	return send_from_directory( STUDENT_VIEWS, 'user_login.html')
 
 @app.route('/user-register')
 def user_register():
-	return send_from_directory( FRONTEND_VIEWS, 'user_register.html')
+	return send_from_directory( STUDENT_VIEWS, 'user_register.html')
 
 @app.route('/user-profile')
 def user_profile():
-	return send_from_directory( FRONTEND_VIEWS, 'user_profile.html')
+	return send_from_directory( STUDENT_VIEWS, 'user_profile.html')
 
 @app.route('/user-profile-edit')
 def user_profile_edit():
-	return send_from_directory( FRONTEND_VIEWS, 'user_profile_edit.html')
+	return send_from_directory( STUDENT_VIEWS, 'user_profile_edit.html')
 
 @app.route('/map')
 def main_map():
-	return send_from_directory( FRONTEND_VIEWS, 'main_map.html')
+	return send_from_directory( STUDENT_VIEWS, 'main_map.html')
 
 # 学生ユーザーの処理
 @app.route('/user-register', methods=['POST'])
