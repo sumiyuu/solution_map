@@ -19,6 +19,7 @@ def serve_css(filename):
 def serve_js(filename):
     return send_from_directory(FRONTEND_JS, filename)
 
+# 学生
 @app.route('/user-login')
 def user_login():
 	return send_from_directory( STUDENT_VIEWS, 'user_login.html')
@@ -39,7 +40,7 @@ def user_profile_edit():
 def main_map():
 	return send_from_directory( STUDENT_VIEWS, 'main_map.html')
 
-# 学生ユーザーの処理
+# 学生の新規登録
 @app.route('/user-register', methods=['POST'])
 def user_register_post():
 	data = request.get_json()
@@ -51,6 +52,8 @@ def user_register_post():
 			return jsonify({"status":"error","msg": "この表示名はすでに登録されています。"})
 		return res
 
+
+# 飲食店情報
 
 
 

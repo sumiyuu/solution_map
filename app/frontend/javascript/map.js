@@ -3,8 +3,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const map = new mapboxgl.Map({
         container: 'map',
         style: 'mapbox://styles/iwamotooo/cm5x9weho00ry01rdc8xvctwu',
-        center: [139.7454, 35.6586],
-        zoom: 10
+        center: [139.6976, 35.6940],
+        zoom: 15
     });
     const geocoder = new MapboxGeocoder({
         accessToken: mapboxgl.accessToken,
@@ -73,9 +73,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 center: e.result.center,
                 zoom: 13
             });
-        });
-        map.on('click', (e) => {
-            addMarkerAndArea(e.lngLat);
         });
     });
     function metersToPixelsAtMaxZoom(meters, latitude) {

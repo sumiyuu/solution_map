@@ -18,15 +18,19 @@ body {
         border-radius: 40px;
         position: relative;
 
-        a {
+        .back {
             position: absolute;
-            top: 50px;
-            left: 50px;
+            top: 65px;
+            left: 30px;
         }
+
         .camera-area {
-            display: flex;
             justify-self: center;
             align-items: center;
+            position: absolute;
+            left: 50%;
+            right: 0;
+            left: 0;
 
             .camera {
                 margin-top: 10px;
