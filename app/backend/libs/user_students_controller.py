@@ -1,8 +1,9 @@
 import sqlite3
+from libs.db_setting import get_db_path
 
 def create(data):
     try:
-        con = sqlite3.connect('../db/app.db')
+        con = sqlite3.connect(get_db_path())
         cur = con.cursor()
 
         query = 'INSERT INTO student_users(display_name, first_name, last_name, birth, phone, email, password ) VALUES(?,?,?,?,?,?,?)'
