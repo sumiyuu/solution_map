@@ -1,3 +1,19 @@
+async function get_latitude_and_longitude( address ) {
+    const accessToken = 'pk.eyJ1IjoiaXdhbW90b29vIiwiYSI6ImNtNW5pMjc3cDBiMXEya29qaXJrZG15eG4ifQ.WFLmzlqHPdPSYi-mzHGnMg';
+    const encodedAddress = encodeURIComponent(address);
+
+    const response = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodedAddress}.json?access_token=${accessToken}&country=JP&language=ja`);
+    const data = await response.json();
+
+    if (data.features && data.features.length > 0) {
+        const [lng, lat] = data.features[0].center;
+        console.log(`緯度: ${lat}, 経度: ${lng}`);
+        return [lng, lat];
+    } else {
+        return "該当の住所が見つかりませんでした";
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('storeForm');
     const res = document.getElementById('msg');
@@ -5,12 +21,23 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', async (event) => {
         event.preventDefault(); // フォーム送信によるページリロードを防ぐ
 
+        let longitude = 0;
+        let latitude = 0;
+
         const store_name = document.getElementById('store_name').value;
         const store_address = document.getElementById('store_address').value;
         const contact_name = document.getElementById('contact_name').value;
         const phone_number = document.getElementById('phone_number').value;
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
+        
+        try {
+            [longitude, latitude] = await get_latitude_and_longitude(store_address);
+
+        } catch(e){
+            console.error(e);
+        }
+
 
         const user_info = {
             "store_name":store_name,
@@ -18,7 +45,9 @@ document.addEventListener('DOMContentLoaded', () => {
             "contact_name":contact_name,
             "phone_number":phone_number,
             "email":email,
-            "password":password
+            "password":password,
+            "latitude":latitude,
+            "longitude":longitude
         };
 
         for (const item in user_info) {
