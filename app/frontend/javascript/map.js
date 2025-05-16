@@ -1,3 +1,7 @@
+async function get_store_info(url) {
+    const response = fatch(url);
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
     mapboxgl.accessToken = 'pk.eyJ1IjoiaXdhbW90b29vIiwiYSI6ImNtNW5pMjc3cDBiMXEya29qaXJrZG15eG4ifQ.WFLmzlqHPdPSYi-mzHGnMg';
     const map = new mapboxgl.Map({
@@ -82,26 +86,24 @@ document.addEventListener('DOMContentLoaded', async () => {
         const latitudeRadians = latitude * (Math.PI / 180);
         return (meters / earthCircumference) * Math.cos(latitudeRadians) * Math.pow(2, 20) * 256;
     }
-    var sampleShop = new mapboxgl.Marker()
-    .setLngLat([139.697415,35.689236])
-    .addTo(map);
-    var popup = new mapboxgl.Popup({ offset: 25 })
-    .setText('店舗名: 焼肉ライク\n学割内容: コーラ無料、おかわり無料');
-    sampleShop.setPopup(popup);
 
-    // const address = '東京都新宿区西新宿１丁目１５−１ 桜木ビル 2F';
-    // const accessToken = 'pk.eyJ1IjoiaXdhbW90b29vIiwiYSI6ImNtNW5pMjc3cDBiMXEya29qaXJrZG15eG4ifQ.WFLmzlqHPdPSYi-mzHGnMg';
-    // const encodedAddress = encodeURIComponent(address);
+    const response = await fetch("http://localhost:8080/map/stores-info");
 
-    // fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodedAddress}.json?access_token=${accessToken}&country=JP&language=ja`)
-    //     .then(response => response.json())
-    //     .then(data => {
-    //     if (data.features && data.features.length > 0) {
-    //         const [lng, lat] = data.features[0].center;
-    //         console.log(`緯度: ${lat}, 経度: ${lng}`);
-    //     } else {
-    //         console.log('該当する住所が見つかりませんでした');
-    //     }
-    // });
+    const json = await response.json();
+    const keys = Object.keys(json);
+    const lnglat_list = [];
+    
+    keys.forEach( key => {
+        const info = json[key];
+        const lnglat = [info["longitude"],info["latitude"]];
 
+        console.log(lnglat);
+
+        var store_pin = new mapboxgl.Marker()
+        .setLngLat([info["longitude"],info["latitude"]])
+        .addTo(map);
+        var popup = new mapboxgl.Popup({ offset: 25 })
+        .setText('店舗名: 焼肉ライク\n学割内容: コーラ無料、おかわり無料');
+        store_pin.setPopup(popup);
+    });
 });

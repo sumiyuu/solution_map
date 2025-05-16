@@ -26,4 +26,34 @@ def create(data):
         return {"status":"success"}
     except sqlite3.Error as e:
         return {"status":"error", "error": str(e)}
-    
+
+def index():
+
+    store_info = {}
+
+    try:
+        con = sqlite3.connect(get_db_path())
+        cur = con.cursor()
+
+        query = "SELECT store_users_id, latitude, longitude, category_id, description, student_discount FROM store_info;"
+
+        data = cur.execute(query).fetchall()
+
+        for i in range(len(data)):
+            info_data = {
+                "store_users_id":data[i][0],
+                "latitude":data[i][1],
+                "longitude":data[i][2],
+                "image_path":data[i][3],
+                "description":data[i][4],
+                "student_discount":data[i][5]
+            }
+
+            store_info[i] = info_data 
+
+        con.commit()
+        con.close()
+
+        return store_info
+    except sqlite3.Error as e:
+        return {"status":"error", "error": str(e)}

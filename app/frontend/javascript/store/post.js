@@ -1,12 +1,14 @@
-async function get_latitude_and_longitude( address ) {
+async function get_latitude_and_longitude(address) {
     const accessToken = 'pk.eyJ1IjoiaXdhbW90b29vIiwiYSI6ImNtNW5pMjc3cDBiMXEya29qaXJrZG15eG4ifQ.WFLmzlqHPdPSYi-mzHGnMg';
     const encodedAddress = encodeURIComponent(address);
 
-    const response = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodedAddress}.json?access_token=${accessToken}&country=JP&language=ja`);
+    const response = await fetch(
+        `https://api.mapbox.com/search/searchbox/v1/forward?q=${encodedAddress}&access_token=${accessToken}&country=JP&language=ja`
+    );
     const data = await response.json();
 
     if (data.features && data.features.length > 0) {
-        const [lng, lat] = data.features[0].center;
+        const [lng, lat] = data.features[0].geometry.coordinates;
         console.log(`緯度: ${lat}, 経度: ${lng}`);
         return [lng, lat];
     } else {

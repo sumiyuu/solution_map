@@ -20,6 +20,7 @@ def serve_css(filename):
 def serve_js(filename):
     return send_from_directory(JS, filename)
 
+
 ############################################ STUDENT ############################################
 @app.route('/user-login')
 def user_login():
@@ -52,6 +53,11 @@ def user_profile_edit():
 @app.route('/map')
 def main_map():
 	return send_from_directory( STUDENT_VIEWS, 'main_map.html')
+
+@app.route('/map/stores-info', methods=['GET'])
+def get_info():
+	stores_info = store_controller.index()
+	return stores_info
 
 #################################################################################################
 
