@@ -86,6 +86,17 @@ def store_register_post():
 			return jsonify({"status":"error","msg": "この店舗はすでに登録されています。"})
 		return res
 
+@app.route('/store-info-edit')
+def store_info_edit():
+	return send_from_directory( STORE_VIEWS, 'store_info_edit.html')
+
+@app.route('/store-info', methods=['GET'])
+def store_info_show():
+	id = request.args.get('id')
+	res = store_controller.show(id)
+	
+	return res
+
 ################################################################################################
 
 if __name__ == ('__main__'):

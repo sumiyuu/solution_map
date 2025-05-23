@@ -1,15 +1,27 @@
-async function get_store_info(url) {
-    const response = fatch(url);
+async function getData(url) {
+    try {
+        const response = await fetch(url); // modeはデフォルトの 'cors'
+        if (!response.ok) {
+            throw new Error(`レスポンスステータス: ${response.status}`);
+        }
+        const json = await response.json();
+        return json;
+    } catch (error) {
+        console.error(error.message);
+        return null;
+    }
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
     mapboxgl.accessToken = 'pk.eyJ1IjoiaXdhbW90b29vIiwiYSI6ImNtNW5pMjc3cDBiMXEya29qaXJrZG15eG4ifQ.WFLmzlqHPdPSYi-mzHGnMg';
+
     const map = new mapboxgl.Map({
         container: 'map',
         style: 'mapbox://styles/iwamotooo/cm5x9weho00ry01rdc8xvctwu',
         center: [139.6976, 35.6940],
         zoom: 15
     });
+
     const geocoder = new MapboxGeocoder({
         accessToken: mapboxgl.accessToken,
         mapboxgl: mapboxgl,
@@ -17,25 +29,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         countries: 'JP',
         language: 'ja'
     });
+
     document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
-    let marker;
-    function addMarkerAndArea(lngLat) {
-        if (marker) marker.remove();
-        marker = new mapboxgl.Marker()
-            .setLngLat(lngLat)
-            .addTo(map);
-        map.getSource('area').setData({
-            type: 'Feature',
-            geometry: {
-                type: 'Point',
-                coordinates: [lngLat.lng, lngLat.lat]
-            }
-        });
-        map.flyTo({
-            center: lngLat,
-            zoom: 13
-        });
-    }
+
     map.on('load', () => {
         map.addSource('area', {
             type: 'geojson',
@@ -55,7 +51,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 'circle-radius': {
                     stops: [
                         [0, 0],
-                        [20, metersToPixelsAtMaxZoom(1000, 35.6586)]
+                        [20, 100]
                     ],
                     base: 2
                 },
@@ -81,29 +77,38 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         });
     });
-    function metersToPixelsAtMaxZoom(meters, latitude) {
-        const earthCircumference = 40075017;
-        const latitudeRadians = latitude * (Math.PI / 180);
-        return (meters / earthCircumference) * Math.cos(latitudeRadians) * Math.pow(2, 20) * 256;
-    }
 
-    const response = await fetch("http://localhost:8080/map/stores-info");
-
-    const json = await response.json();
+    const json = await getData("http://localhost:8080/map/stores-info");
+    // console.log(json);
     const keys = Object.keys(json);
-    const lnglat_list = [];
     
     keys.forEach( key => {
         const info = json[key];
-        const lnglat = [info["longitude"],info["latitude"]];
+        let id = info["store_users_id"];
 
-        console.log(lnglat);
-
-        var store_pin = new mapboxgl.Marker()
+        let store_pin = new mapboxgl.Marker()
         .setLngLat([info["longitude"],info["latitude"]])
         .addTo(map);
-        var popup = new mapboxgl.Popup({ offset: 25 })
-        .setText('店舗名: 焼肉ライク\n学割内容: コーラ無料、おかわり無料');
-        store_pin.setPopup(popup);
+
+        let el = store_pin.getElement();
+        el.id = id;
+
+        el.addEventListener('click', async () => {
+            const infoArea = document.querySelector('.store-info-area');
+            infoArea.style.display = 'block';
+
+            const store_info = await getData(`http://localhost:8080/store-info?id=${id}`)
+
+            document.getElementById('store-name').textContent = store_info["store_name"];
+            document.getElementById('store-address').textContent = store_info["store_address"];
+            document.getElementById('student_discount').textContent = store_info["student_discount"];
+            document.getElementById('store-description').textContent = store_info["description"];
+
+            console.log(`Clicked store ID: ${info["store_users_id"]}`);
+        });
+    });
+
+    document.getElementById('close-button').addEventListener('click', () => {
+        document.querySelector('.store-info-area').style.display = 'none';
     });
 });
