@@ -90,6 +90,19 @@ def store_register_post():
 def store_info_edit():
 	return send_from_directory( STORE_VIEWS, 'store_info_edit.html')
 
+@app.route('/store-info-edit', methods=['PATCH'])
+def store_info_update():
+	data = request.get_json()
+	res = store_controller.update(data)
+
+	if res['status'] == 'success':
+		return jsonify({"redirect": url_for('main_map')})
+	else:
+		if res["error"] == "UNIQUE constraint failed: store_users.store_name":
+			return jsonify({"status":"error","msg": "この店舗はすでに登録されています。"})
+		return res
+
+
 @app.route('/store-info', methods=['GET'])
 def store_info_show():
 	id = request.args.get('id')

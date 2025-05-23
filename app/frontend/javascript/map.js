@@ -101,14 +101,27 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             document.getElementById('store-name').textContent = store_info["store_name"];
             document.getElementById('store-address').textContent = store_info["store_address"];
-            document.getElementById('student_discount').textContent = store_info["student_discount"];
+            document.getElementById('student-discount').textContent = store_info["student_discount"];
             document.getElementById('store-description').textContent = store_info["description"];
 
-            console.log(`Clicked store ID: ${info["store_users_id"]}`);
+            // console.log(`Clicked store ID: ${info["store_users_id"]}`);
         });
     });
-
+    
     document.getElementById('close-button').addEventListener('click', () => {
         document.querySelector('.store-info-area').style.display = 'none';
+    });
+    
+    document.getElementById('store-info-edit').addEventListener('click', () => {
+        const storeData = {
+            store_name: document.querySelector('#store-name').textContent,
+            store_address: document.querySelector('#store-address').textContent,
+            description: document.querySelector('#store-description').textContent,
+            student_discount: document.querySelector('#student-discount').textContent
+        };
+
+        sessionStorage.setItem('store_info', JSON.stringify(storeData));
+
+        window.location.href = '/store-info-edit';
     });
 });

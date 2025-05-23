@@ -89,8 +89,14 @@ def update(data):
         con = sqlite3.connect(get_db_path())
         cur = con.cursor()
 
-        query = "UPDATE store_info SET category_id = ?, description = ?, student_discount = ? WHERE store_users_id = ?;"
-        cur.execute(query, ( data['category_id'], data['description'], data['student_discount'], data['store_users_id']))
+        query = "SELECT id FROM store_users WHERE store_name = ?;"
+        id = cur.execute(query,(data['store_name'],)).fetchone()
+
+        store_id = id[0]
+
+        query = "UPDATE store_info SET description = ?, student_discount = ? WHERE store_users_id = ?;"
+        cur.execute(query, ( data['store_description'], data['student_discount'], store_id))
+
         if cur.rowcount == 0:
             raise Exception("No record updated. store_users_id may not exist.")
 
