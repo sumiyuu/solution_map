@@ -14,24 +14,24 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('store-description').value = data.description;
 
     document.getElementById('submit-button').addEventListener('click', async () => {
-    const data = {
-        store_name: document.getElementById('store-name').value,
-        student_discount: document.getElementById('student-discount').value,
-        store_description: document.getElementById('store-description').value
-    };
+        const data = {
+            store_name: document.getElementById('store-name').value,
+            student_discount: document.getElementById('student-discount').value,
+            store_description: document.getElementById('store-description').value
+        };
+        
+        const response = await fetch('/store-info-edit', {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
 
-    const response = await fetch('/store-info-edit', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        const result = await response.json();
+        
+        if (result.redirect) {
+            window.location.href = result.redirect;
+        } else {
+            alert(result.msg || '更新に失敗しました');
+        }
     });
-
-    const result = await response.json();
-    if (result.redirect) {
-        window.location.href = result.redirect;
-    } else {
-        alert(result.msg || '更新に失敗しました');
-    }
-});
-
 });
