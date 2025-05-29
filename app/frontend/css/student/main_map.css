@@ -86,6 +86,10 @@ body {
                 height: 600px;
                 bottom: 136px;
                 display: none;
+
+                img {
+                    width: 95%;
+                }
             }
 
             .store-information{

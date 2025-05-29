@@ -103,8 +103,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.getElementById('store-address').textContent = store_info["store_address"];
             document.getElementById('student-discount').textContent = store_info["student_discount"];
             document.getElementById('store-description').textContent = store_info["description"];
+            if (store_info["category_id"] === null) {
+                document.getElementById("image").src = "";
+            } else {
+                document.getElementById("image").src = `/uploaded_image/${store_info["category_id"]}`;
+            }
 
-            // console.log(`Clicked store ID: ${info["store_users_id"]}`);
         });
     });
     

@@ -1,12 +1,18 @@
 from flask import Flask, send_from_directory, request, url_for, jsonify
 from libs import user_students_controller, store_controller
+import os, time
 
 STORE_VIEWS = "../frontend/views/store"
 STUDENT_VIEWS = "../frontend/views/student"
-CSS = "../frontend/stylecss"
-JS = "../frontend/javascript"
+CSS = "../frontend/css"
+JS = "../frontend/js"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+IMAGE_PATH = os.path.join(BASE_DIR, 'image')
+# IMAGE_FOLDER = os.path.join(os.path.dirname(__file__), 'image')
 
 app = Flask(__name__)
+
+app.config['UPLOAD_FOLDER'] = IMAGE_PATH
 
 @app.route('/')
 def home():
@@ -20,6 +26,9 @@ def serve_css(filename):
 def serve_js(filename):
     return send_from_directory(JS, filename)
 
+@app.route('/uploaded_image/<filename>')
+def serve_uploaded_image(filename):
+    return send_from_directory(IMAGE_PATH, filename)
 
 ############################################ STUDENT ############################################
 @app.route('/user-login')
@@ -86,13 +95,37 @@ def store_register_post():
 			return jsonify({"status":"error","msg": "この店舗はすでに登録されています。"})
 		return res
 
+@app.route('/store-info', methods=['GET'])
+def store_info_show():
+	id = request.args.get('id')
+	res = store_controller.show(id)
+	
+	return res
+
 @app.route('/store-info-edit')
 def store_info_edit():
 	return send_from_directory( STORE_VIEWS, 'store_info_edit.html')
 
-@app.route('/store-info-edit', methods=['PATCH'])
+@app.route('/store-info-edit', methods=['POST'])
 def store_info_update():
-	data = request.get_json()
+	
+	store_name = request.form.get('store_name')
+	student_discount = request.form.get('student_discount')
+	store_description = request.form.get('store_description')
+
+	path = None
+
+	if 'image' in request.files:
+		file = request.files['image']
+		path = store_controller.upload_image(file, IMAGE_PATH, store_name)
+
+	data = {
+		"store_name" : store_name,
+		"student_discount" : student_discount,
+		"store_description" : store_description,
+		"category_id" : path
+	}
+
 	res = store_controller.update(data)
 
 	if res['status'] == 'success':
@@ -103,12 +136,6 @@ def store_info_update():
 		return res
 
 
-@app.route('/store-info', methods=['GET'])
-def store_info_show():
-	id = request.args.get('id')
-	res = store_controller.show(id)
-	
-	return res
 
 ################################################################################################
 

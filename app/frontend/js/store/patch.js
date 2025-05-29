@@ -14,16 +14,24 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('store-description').value = data.description;
 
     document.getElementById('submit-button').addEventListener('click', async () => {
-        const data = {
-            store_name: document.getElementById('store-name').value,
-            student_discount: document.getElementById('student-discount').value,
-            store_description: document.getElementById('store-description').value
-        };
+        const form_data = new FormData();
+
+        form_data.append("store_name",document.getElementById('store-name').value);
+        form_data.append("student_discount",document.getElementById('student-discount').value);
+        form_data.append("store_description",document.getElementById('store-description').value);
+        
+        
+        const image_file = document.getElementById('store-image').files[0];
+
+        if (image_file) {
+            form_data.append("image", image_file);
+        }
+
         
         const response = await fetch('/store-info-edit', {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
+            method: 'POST',
+            // headers: { 'Content-Type': 'application/json' },
+            body: form_data
         });
 
         const result = await response.json();

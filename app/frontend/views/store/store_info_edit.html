@@ -16,12 +16,12 @@
                 <h1>店舗情報の修正</h1>
 
                 <p id="msg"></p>
-                <form id="userForm">
+                <form id="userForm" enctype="multipart/form-data">
                     <input class="form-input" type="text" id="store-name" placeholder="店舗名" />
                     <input class="form-input" type="text" id="store-address" placeholder="住所" />
                     <input class="form-input" type="text" id="student-discount" placeholder="学割情報" />
                     <input class="form-input" type="text" id="store-description" placeholder="店舗の基本情報"/>
-                    <!-- <button type="submit" class="register-btn">変更内容を保存</button> -->
+                    <input type="file" id="store-image" accept="image/*">
                 </form>
                 <p id="submit-button">変更を保存</p>
 

@@ -1,4 +1,4 @@
-import sqlite3
+import sqlite3, time, os
 from libs.db_setting import get_db_path
 
 def create(data):
@@ -66,14 +66,15 @@ def show(id):
         query = "SELECT store_name, store_address FROM store_users WHERE id = ?;"
         info_1 = cur.execute(query,(id,)).fetchone()
 
-        query = "SELECT description, student_discount FROM store_info WHERE store_users_id = ?;"
+        query = "SELECT description, student_discount, category_id FROM store_info WHERE store_users_id = ?;"
         info_2 = cur.execute(query,(id,)).fetchone()
 
         store_info = {
             "store_name":info_1[0],
             "store_address":info_1[1],
             "description":info_2[0],
-            "student_discount":info_2[1]
+            "student_discount":info_2[1],
+            "category_id":info_2[2]
         }
 
         con.commit()
@@ -94,8 +95,8 @@ def update(data):
 
         store_id = id[0]
 
-        query = "UPDATE store_info SET description = ?, student_discount = ? WHERE store_users_id = ?;"
-        cur.execute(query, ( data['store_description'], data['student_discount'], store_id))
+        query = "UPDATE store_info SET description = ?, student_discount = ?, category_id = ? WHERE store_users_id = ?;"
+        cur.execute(query, ( data['store_description'], data['student_discount'], data['category_id'], store_id))
 
         if cur.rowcount == 0:
             raise Exception("No record updated. store_users_id may not exist.")
@@ -106,3 +107,28 @@ def update(data):
 
     except sqlite3.Error as e:
         return {"status": "error", "error": str(e)}
+    
+
+def upload_image(image, absolute_path, store_name):
+    _, ext = os.path.splitext(image.filename)
+    timestamp = time.strftime("%Y%m%d%H%M%S")
+
+    con = sqlite3.connect(get_db_path())
+    cur = con.cursor()
+
+    query = "SELECT id FROM store_users WHERE store_name = ?;"
+    id = cur.execute(query,(store_name,)).fetchone()
+
+    query = "SELECT category_id FROM store_info WHERE store_users_id = ?;"
+    existing_image = cur.execute(query,(id[0],)).fetchone()
+
+    if existing_image[0] != None:
+        existing_image_path = f"{absolute_path}/{existing_image[0]}"
+        os.remove(existing_image_path)
+
+    unique_filename = f"{timestamp}{ext}"
+
+    save_path = os.path.join(absolute_path, unique_filename)
+    image.save(save_path)
+
+    return unique_filename
