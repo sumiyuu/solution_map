@@ -110,8 +110,11 @@ def update(data):
     
 
 def upload_image(image, absolute_path, store_name):
+
     _, ext = os.path.splitext(image.filename)
     timestamp = time.strftime("%Y%m%d%H%M%S")
+
+    print(image)
 
     con = sqlite3.connect(get_db_path())
     cur = con.cursor()
@@ -132,3 +135,16 @@ def upload_image(image, absolute_path, store_name):
     image.save(save_path)
 
     return unique_filename
+
+def get_image(store_name):
+    con = con = sqlite3.connect(get_db_path())
+    cur = con.cursor()
+
+    query = "SELECT id FROM store_users WHERE store_name = ?;"
+    id = cur.execute(query,(store_name,)).fetchone()
+
+    query = "SELECT category_id FROM store_info WHERE store_users_id = ?;"
+    existing_image = cur.execute(query,(id[0],)).fetchone()
+
+    return existing_image[0]
+

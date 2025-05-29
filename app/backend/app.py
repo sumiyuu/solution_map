@@ -119,6 +119,11 @@ def store_info_update():
 		file = request.files['image']
 		path = store_controller.upload_image(file, IMAGE_PATH, store_name)
 
+	else:
+		path = store_controller.get_image(store_name)
+
+
+
 	data = {
 		"store_name" : store_name,
 		"student_discount" : student_discount,
