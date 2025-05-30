@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>新規登録画面</title>
+        <link rel="stylesheet" href="../stylecss/student/user_register.css" />
+        <script src="../javascript/store/patch.js"></script>
+    </head>
+    <body>
+        <div class="smartphone-screen">
+            <div class="camera-area">
+                <div class="camera"></div>
+            </div>
+            <div class="container">
+                <h1>店舗情報の修正</h1>
+
+                <p id="msg"></p>
+                <form id="userForm" enctype="multipart/form-data">
+                    <input class="form-input" type="text" id="store-name" placeholder="店舗名" />
+                    <input class="form-input" type="text" id="store-address" placeholder="住所" />
+                    <input class="form-input" type="text" id="student-discount" placeholder="学割情報" />
+                    <input class="form-input" type="text" id="store-description" placeholder="店舗の基本情報"/>
+                    <input type="file" id="store-image" accept="image/*">
+                </form>
+                <p id="submit-button">変更を保存</p>
+
+                <a class="login-link" href="http://localhost:8080/map">編集をやめる</a>
+            </div>
+        </div>
+    </body>
+</html>

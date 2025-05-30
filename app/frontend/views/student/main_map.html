@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Map UI</title>
+        <link
+            href="https://api.mapbox.com/mapbox-gl-js/v3.9.1/mapbox-gl.css"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.1-dev/mapbox-gl-geocoder.css"
+        />
+        <link rel="stylesheet" href="../stylecss/student/main_map.css" />
+        <!-- 外部CSSをリンク -->
+        <script src="https://api.mapbox.com/mapbox-gl-js/v3.9.1/mapbox-gl.js"></script>
+        <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.1-dev/mapbox-gl-geocoder.min.js"></script>
+        <script src="/javascript/map.js" defer></script>
+    </head>
+    <body>
+        <div class="smartphone-screen">
+            <div class="camera-area">
+                <div class="camera"></div>
+            </div>
+
+            <div class="container">
+                <!-- 上部バー -->
+                <div id="geocoder"></div>
+                <div class="profile-button"></div>
+
+                <!-- 中央の地図表示 -->
+                <div id="map" class="map-container"></div>
+
+                <div class="store-info-area">
+                    <section class="header">
+                        <p id="close-button">×</p>
+                        <p id="store-info-edit">編集</p>
+                    </section>
+
+                    <div class="store-info">
+                        <h1 id="store-name">焼肉ライク新宿西口店</h1> 
+
+                        <img src="/uploaded_image/20250529163247.png" alt="" id="image">
+
+                        <p id="store-address">東京都新宿区西新宿７丁目１１−１７</p>
+
+                        <h2>学割情報</h2>
+                        <p id="student-discount">中学生以上の学生が対象。「焼肉セット」ご注文時、学生証をご提示いただくと、7種類のおまけ商品から1品が無料で追加できる! さらに、ごはんのおかわりも無料!!!!</p>
+
+                        <h2>基本情報</h2>
+                        <p id="store-description">焼肉ライは、一人焼肉をコンセプトにした飲食店。一人一台の無煙ロースターが設置され、席横のタッチパネルで注文できる! 気軽に焼肉を楽しめるのが特徴!!</p>
+                    </div>
+                </div>
+
+                <!-- 下部ナビゲーション -->
+                <div class="bottom-nav">
+                    <div class="nav-item">
+                        <div class="nav-icon"></div>
+                        <div class="nav-label">マップ</div>
+                    </div>
+                    <div class="nav-item">
+                        <div class="nav-icon"></div>
+                        <div class="nav-label">学生書</div>
+                    </div>
+                    <div class="nav-item">
+                        <div class="nav-icon"></div>
+                        <a href="/user-profile" class="nav-label">設定</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
