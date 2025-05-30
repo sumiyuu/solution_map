@@ -83,11 +83,12 @@ body {
                 z-index: 4;
                 background-color: white;
                 width: 91%;
-                height: 530px;
-                bottom: 195px;
+                height: 630px;
+                bottom: 140px;
                 padding: 10px;
                 border-radius: 20px;
                 display: none;
+                border: solid 2px black;
 
                 .header {
                     display: flex;

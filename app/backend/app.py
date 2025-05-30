@@ -1,6 +1,6 @@
 from flask import Flask, send_from_directory, request, url_for, jsonify
 from libs import user_students_controller, store_controller
-import os, time
+import os
 
 STORE_VIEWS = "../frontend/views/store"
 STUDENT_VIEWS = "../frontend/views/student"
